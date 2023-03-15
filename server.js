@@ -1,9 +1,10 @@
-// const { request } = require('express');
 const request = require('request')
 const querystring = require('querystring')
 const express = require('express')
 const app = express();
 const PORT = 3001;
+const cors = require('cors')
+app.use(cors())
 
 const client_id = 'fb676ee83d04401a9645542130052688'
 const client_secret = 'dcce6c96a47a45dd8b0978e4601be5e3'
@@ -18,7 +19,7 @@ function generateRandomString(length){
     return text;
 }
 
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
 
     let state = generateRandomString(16);
     let scope = `
@@ -51,7 +52,7 @@ app.get('/callback', (req, res) => {
             redirect_uri,
             grant_type: 'authorization_code'
         },
-        headers: {
+        headers: {      
             'Authorization': 'Basic ' + (Buffer.from(client_id + ':' + client_secret).toString('base64'))
         },
         json: true
@@ -60,26 +61,22 @@ app.get('/callback', (req, res) => {
     request.post(options, (err, response, body) => {
         if (!err && response.statusCode == 200){
             
-            //TEST IF WORKING - GET /V1/ME
             access_token = body.access_token;
 
-            let options = {
-                url: 'https://api.spotify.com/v1/me',
-                headers: { 'Authorization': 'Bearer ' + access_token },
-                json: true
-            }
-
-            request.get(options, (err, resp, body) => {
-                res.send('Hello World')
-                console.log('WORKING')
-            })
+            console.log(`REDIRECT TO REACT, TOKEN: ${access_token}`)
+            res.redirect('http://localhost:3000');
 
         }
     })
 
 })
 
-app.get('/get_access_token', (req, res) => res.json(access_token))
+app.get('/get_access_token', (req, res) => {
+    access_token ? console.log('Token OK') : console.log('Token Expired')
+    res.json({
+        access_token
+    })
+})
 
 app.get('/refresh_token', (req, res) => {
     
@@ -100,7 +97,7 @@ app.get('/refresh_token', (req, res) => {
 
     request.post(options, (err, response, body) => {
         if (!err && response.statusCode === 200){
-            res.send({
+            res.json({
                 'access_token': body.access_token
             })
         }
