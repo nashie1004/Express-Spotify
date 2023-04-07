@@ -9,7 +9,7 @@ app.use(cors())
 const client_id = process.env.CLIENT_ID.toString()
 const client_secret = process.env.CLIENT_SECRET.toString()
 console.log(client_id, client_secret)
-const redirect_uri = 'https://spotify2express.onrender.com/' //'http://localhost:3001/callback'
+const redirect_uri = 'https://spotify2express.onrender.com/callback' //'http://localhost:3001/callback'
 
 function generateRandomString(length){
     let text = ''
@@ -58,6 +58,8 @@ app.get('/callback', (req, res) => {
         },
         json: true
     }
+
+    console.log('>> callback ok')
 
     request.post(options, (err, response, body) => {
         if (!err && response.statusCode == 200){
