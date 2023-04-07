@@ -2,12 +2,12 @@ const request = require('request')
 const querystring = require('querystring')
 const express = require('express')
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const cors = require('cors')
 app.use(cors())
 
-const client_id = 'fb676ee83d04401a9645542130052688'
-const client_secret = 'dcce6c96a47a45dd8b0978e4601be5e3'
+const client_id = process.env.CLIENT_ID
+const client_secret = process.env.CLIENT_SECRET 
 const redirect_uri = 'http://localhost:3001/callback'
 
 function generateRandomString(length){
@@ -64,7 +64,7 @@ app.get('/callback', (req, res) => {
             access_token = body.access_token;
 
             console.log(`REDIRECT TO REACT, TOKEN: ${access_token}`)
-            res.redirect('http://localhost:3000');
+            res.redirect('http://localhost:5173');
 
         }
     })
