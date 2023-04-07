@@ -6,8 +6,8 @@ const PORT = process.env.PORT || 3001;
 const cors = require('cors')
 app.use(cors())
 
-const client_id = process.env.CLIENT_ID
-const client_secret = process.env.CLIENT_SECRET 
+const client_id = 'fb676ee83d04401a9645542130052688' // process.env.CLIENT_ID
+const client_secret = 'dcce6c96a47a45dd8b0978e4601be5e3' // process.env.CLIENT_SECRET 
 const redirect_uri = 'https://spotify2express.onrender.com/callback' //'http://localhost:3001/callback'
 
 function generateRandomString(length){
