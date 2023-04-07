@@ -8,7 +8,7 @@ app.use(cors())
 
 const client_id = process.env.CLIENT_ID
 const client_secret = process.env.CLIENT_SECRET 
-const redirect_uri = 'http://localhost:3001/callback'
+const redirect_uri = 'https://spotify2express.onrender.com' //'http://localhost:3001/callback'
 
 function generateRandomString(length){
     let text = ''
@@ -64,7 +64,7 @@ app.get('/callback', (req, res) => {
             access_token = body.access_token;
 
             console.log(`REDIRECT TO REACT, TOKEN: ${access_token}`)
-            res.redirect('http://localhost:5173');
+            res.redirect('https://spotify2react.onrender.com');
 
         }
     })
