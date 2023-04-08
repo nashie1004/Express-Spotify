@@ -67,7 +67,7 @@ app.get('/callback', (req, res) => {
             access_token = body.access_token;
 
             console.log(`REDIRECT TO REACT, TOKEN: ${access_token}`)
-            res.redirect('https://spotify2react.onrender.com');
+            res.redirect('https://spotify2react.onrender.com/home');
 
         }
     })
